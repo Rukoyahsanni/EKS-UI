@@ -1,7 +1,7 @@
 # configured aws provider with proper credentials
 provider "aws" {
   region    = "us-east-1"
-  profile   = "yusuf"
+  profile   = "sanni"
 }
 
 
@@ -29,8 +29,8 @@ resource "aws_default_subnet" "default_az1" {
 
 
 # create security group for the ec2 instance
-resource "aws_security_group" "ec2_security_group_jenkins" {
-  name        = "ec2 security group_jenkins"
+resource "aws_security_group" "ec2_security_group" {
+  name        = "ec2 security group"
   description = "allow access on ports 8080 and 22"
   vpc_id      = aws_default_vpc.default_vpc.id
 
@@ -58,7 +58,7 @@ resource "aws_security_group" "ec2_security_group_jenkins" {
     protocol         = -1
     cidr_blocks      = ["0.0.0.0/0"]
   }
- 
+
   tags   = {
     Name = "jenkins server security group"
   }
@@ -83,14 +83,13 @@ data "aws_ami" "ubuntu" {
     owners = ["099720109477"]
 }
 
-# launch the ec2 instance and install website
+# launch the ec2 instance
 resource "aws_instance" "ec2_instance" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.small"
   subnet_id              = aws_default_subnet.default_az1.id
-  vpc_security_group_ids = [aws_security_group.ec2_security_group_jenkins.id]
-  key_name               = "devopskeypair"
-  # user_data            = file("install_jenkins.sh")
+  vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
+  key_name               = "sannikp"
 
   tags = {
     Name = "jenkins_server"
@@ -105,21 +104,21 @@ resource "null_resource" "name" {
   connection {
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file("~/Downloads/devopskeypair.pem")
+    private_key = file("C:/Users/HP/Downloads/sannikp.pem") 
     host        = aws_instance.ec2_instance.public_ip
   }
 
   # copy the install_jenkins.sh file from your computer to the ec2 instance 
   provisioner "file" {
     source      = "install_jenkins.sh"
-    destination = "/tmp/install_jenkins.sh"
+    destination = "/home/ubuntu/install_jenkins.sh"
   }
 
   # set permissions and run the install_jenkins.sh file
   provisioner "remote-exec" {
     inline = [
-        "sudo chmod +x /tmp/install_jenkins.sh",
-        "sh /tmp/install_jenkins.sh",
+        "sudo chmod +x /home/ubuntu/install_jenkins.sh",
+        "sudo bash /home/ubuntu/install_jenkins.sh ",
     ]
   }
 
@@ -128,7 +127,7 @@ resource "null_resource" "name" {
 }
 
 
-# print the url of the jenkins server
+# print the url of the jenkins serveRRRRRRR
 output "website_url" {
   value     = join ("", ["http://", aws_instance.ec2_instance.public_dns, ":", "8080"])
 }
