@@ -9,11 +9,11 @@ variable public_subnet_cidr_blocks {}
 data "aws_availability_zones" "available" {}
 
 
-module "myAppp-vpc" {
+module "myApp-vpc" {
     source = "terraform-aws-modules/vpc/aws"
     version = "5.0.0"
 
-    name = "myAppp-vpc"
+    name = "myApp-vpc"
     cidr = var.vpc_cidr_block
     private_subnets = var.private_subnet_cidr_blocks
     public_subnets = var.public_subnet_cidr_blocks
