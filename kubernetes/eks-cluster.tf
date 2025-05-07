@@ -15,15 +15,15 @@ module "eks" {
   }
   
 
-  cluster_name = "myAppp-eks-cluster"  
+  cluster_name = "myApp-eks-cluster"  
   cluster_version = "1.27"
 
-  subnet_ids = module.myAppp-vpc.private_subnets
-  vpc_id = module.myAppp-vpc.vpc_id
+  subnet_ids = module.myApp-vpc.private_subnets
+  vpc_id = module.myApp-vpc.vpc_id
 
   tags = {
     environment = "development"
-    application = "myAppp"
+    application = "myApp"
   }
 
   eks_managed_node_groups = {
