@@ -22,7 +22,7 @@ This project documents an end-to-end deployment of a user interface (UI) applica
 
 * **Infrastructure Setup**:
 
-  * Created Terraform scripts for provisioning:
+  * Terraform scripts for provisioning:
 
     * Jenkins
     * SonarQube
