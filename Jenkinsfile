@@ -4,9 +4,9 @@ pipeline {
         VERSION = "${env.BUILD_ID}"
         AWS_ACCOUNT_ID= credentials('account_id')
         AWS_DEFAULT_REGION="us-east-1"
-        IMAGE_REPO_NAME="image_repo"
+        IMAGE_REPO_NAME="my-app-repo"
         IMAGE_TAG= "${env.BUILD_ID}"
-        REPOSITORY_URI = "296062559523.dkr.ecr.us-east-1.amazonaws.com/image_repo"
+        REPOSITORY_URI = "296062559523.dkr.ecr.us-east-1.amazonaws.com/my-app-repo"
         MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED"
     }
     stages {
@@ -41,8 +41,8 @@ pipeline {
         
          stage('Logging into AWS ECR') {
                      environment {
-                        AWS_ACCESS_KEY_ID = credentials('Anike')
-                        AWS_SECRET_ACCESS_KEY = credentials('Anike')
+                        AWS_ACCESS_KEY_ID = credentials('aws_access_key')
+                        AWS_SECRET_ACCESS_KEY = credentials('aws_secret_key')
                          
                    }
                      steps {
@@ -73,8 +73,8 @@ pipeline {
          
          stage('pull image & Deploying UI application on eks cluster DEV') {
                     environment {
-                       AWS_ACCESS_KEY_ID = credentials('Anike')
-                       AWS_SECRET_ACCESS_KEY = credentials('Anike')
+                       AWS_ACCESS_KEY_ID = credentials('aws_access_key')
+                       AWS_SECRET_ACCESS_KEY = credentials('aws_secret_key')
                  }
                     steps {
                       script{

@@ -60,6 +60,7 @@ WantedBy=multi-user.target
 EOF
 
 echo "🚀 Starting SonarQube..."
+sudo sed -i 's/\r//' /etc/systemd/system/sonarqube.service
 sudo systemctl daemon-reexec
 sudo systemctl daemon-reload
 sudo systemctl enable sonarqube

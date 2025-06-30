@@ -124,6 +124,7 @@ resource "null_resource" "name" {
   # set permissions and run the install_sonarqube.sh file
   provisioner "remote-exec" {
     inline = [
+        "sed -i 's/\\r$//' /home/ubuntu/install_sonarqube.sh",
         "sudo chmod +x /home/ubuntu/install_sonarqube.sh",
         "sudo bash /home/ubuntu/install_sonarqube.sh ",
     ]
